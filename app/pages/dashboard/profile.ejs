@@ -1,0 +1,16 @@
+<head>
+    <link rel="stylesheet" href="/css/dashboard/profile/styles.css">
+</head>
+
+<section id="profile" class="dashboard-section">
+    <h2>User Profile</h2>
+    <form id="profile-form">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" value="<%= currentUser.username %>" required>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="<%= currentUser.email %>" required>
+        
+        <button type="submit">Update Profile</button>
+    </form>
+</section>

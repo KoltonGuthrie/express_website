@@ -1,0 +1,19 @@
+<head>
+    <link rel="stylesheet" href="/css/dashboard/settings/styles.css">
+</head>
+
+<section id="settings" class="dashboard-section">
+    <h2>Configure Settings</h2>
+    <form id="settings-form">
+        <label for="site-title">Site Title:</label>
+        <input type="text" id="site-title" name="site-title" value="<%= settings.siteTitle %>">
+        
+        <label for="theme">Theme:</label>
+        <select id="theme" name="theme">
+            <option value="light" <%= settings.theme === 'light' ? 'selected' : '' %>>Light</option>
+            <option value="dark" <%= settings.theme === 'dark' ? 'selected' : '' %>>Dark</option>
+        </select>
+        
+        <button type="submit">Save Settings</button>
+    </form>
+</section>

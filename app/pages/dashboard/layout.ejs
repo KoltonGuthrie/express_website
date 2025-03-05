@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/css/dashboard/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Admin Dashboard</h1>
+        <nav>
+            <ul>
+                <li><a href="/dashboard/users">Users</a></li>
+                <li><a href="/dashboard/settings">Settings</a></li>
+                <li><a href="/dashboard/reports">Reports</a></li>
+                <li><a href="/dashboard/profile">Profile</a></li>
+            </ul>
+        </nav>
+        <div class="user-info">
+            <p>Logged in as: <strong><%= currentUser.username %></strong></p>
+            <p>Role: <strong><%= currentUser.role %></strong></p>
+        </div>
+    </header>
+
+    <main>
+        <%- body %>
+    </main>
+</body>
+</html>

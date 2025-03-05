@@ -1,0 +1,31 @@
+<head>
+    <link rel="stylesheet" href="/css/dashboard/users/styles.css">
+</head>
+
+<section id="users" class="dashboard-section">
+    <h2>Manage Users</h2>
+    <button id="refresh-users" onclick="fetchUsers()">Refresh Users</button>
+    <table id="user-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% users.forEach(user => { %>
+                <tr>
+                    <td><%= user.id %></td>
+                    <td><%= user.username %></td>
+                    <td><%= user.role %></td>
+                    <td>
+                        <button class="edit-btn" onclick="editUser('<%= user.id %>')">Edit</button>
+                        <button class="delete-btn" onclick="deleteUser('<%= user.id %>')">Delete</button>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</section>
