@@ -1,36 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Welcome to my Express Website</title>
-    <link rel="stylesheet" href="/css/home/styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="/css/home/styles.css" />
+  </head>
+  <body>
     <header>
-        <nav>
-            <div class="logo">Express Website</div>
-            <ul class="nav-links">
-                <li><a href="/dashboard">Dashboard</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <% if(isLoggedIn) { %> <li><a href="/login" class="btn">Login</a></li>
-                <% } else { %> <li><a href="/logout" class="btn">Logout</a></li>
-                <% } %>
-            </ul>
-        </nav>
+      <nav>
+        <div class="logo">Express Website</div>
+        <ul class="nav-links">
+          <li><a href="/dashboard">Dashboard</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <% if(isLoggedIn) { %>
+          <li><a href="/login" class="btn">Login</a></li>
+          <% } else { %>
+          <li><a href="/logout" class="btn">Logout</a></li>
+          <% } %>
+        </ul>
+      </nav>
     </header>
 
     <section class="hero">
-        <div class="hero-content">
-            <h1>Welcome to my Express Website</h1>
-            <p>Your one-stop solution for managing everything efficiently.</p>
-            <a href="/dashboard" class="btn">Go to Dashboard</a>
-        </div>
+      <div class="hero-content">
+        <h1>Welcome to my Express Website</h1>
+        <p>Your one-stop solution for managing everything efficiently.</p>
+        <a href="/dashboard" class="btn">Go to Dashboard</a>
+      </div>
     </section>
 
     <footer>
-        <p>&copy; 2025 Express Website. All rights reserved.</p>
+      <p>&copy; 2025 Express Website. All rights reserved.</p>
     </footer>
-</body>
+  </body>
 </html>

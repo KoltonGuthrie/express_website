@@ -1,21 +1,21 @@
 /* Reports Section */
 #reports {
-    padding: 20px;
+  padding: 20px;
 }
 
 #report-container {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 #load-reports {
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 #load-reports:hover {
-    background-color: #45a049;
+  background-color: #45a049;
 }
