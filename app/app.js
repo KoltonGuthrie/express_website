@@ -1,8 +1,11 @@
 import 'dotenv/config'
 import express from 'express';
 import session from 'express-session';
+import ejsLayouts from 'express-ejs-layouts';
+import dashboardRoute from './routes/dashboard.js';
 import { isLoggedIn } from './utils.js'
-import { isValidCredentials } from './database/credentials.js';
+import { isValidCredentials, getCredentialsByUsername } from './database/credentials.js';
+import { getUserRoleById } from './database/roles.js';
 
 const app = express();
 
@@ -21,6 +24,24 @@ app.use(express.urlencoded({ extended: true }))
 
 app.set('view engine', 'ejs');
 app.set('views', './app/pages');
+app.use(ejsLayouts);
+app.set('layout', false)
+
+/*
+    ###################################
+        LOGIN REQUIRED ROUTS START
+    ####################################
+*/
+
+app.use('/dashboard', loginRequired, adminRequired);
+
+/*
+    ###################################
+        LOGIN REQUIRED ROUTS END
+    ####################################
+*/
+
+app.use('/dashboard', dashboardRoute);
 
 app.get('/', (req, res) => {
     res.send("Hello, World!");
@@ -30,17 +51,30 @@ app.get('/login', (req, res) => {
     if (isLoggedIn(req))
         return res.redirect('/');
 
-    res.render('login/index');
+    res.render('login');
 });
 
 app.post('/login', async (req, res) => {
-    const { username, password } = req.body;
+    try {
+        const { username, password } = req.body;
 
-    if (isValidCredentials(username, password)) {
-        req.session.username = username;
-        res.send('Login successful');
-    } else {
-        res.send('Invalid credentials');
+        if (isValidCredentials(username, password)) {
+            const id = (await getCredentialsByUsername(username)).user_id;
+            const role = (await getUserRoleById(id)).name;
+
+            req.session.username = username;
+            req.session.role = role;
+
+            const redirectTo = req.session.returnTo || '/';
+            delete req.session.returnTo;
+
+            res.redirect(redirectTo);
+        } else {
+            res.redirect('/login#invalid');
+        }
+    } catch(err) {
+        res.send(`Error: ${err.message}`).status(500);
+        console.error(err);
     }
 });
 
@@ -48,5 +82,27 @@ app.get('/logout', (req, res) => {
     req.session.destroy();
     res.send("Logged out.");
 });
+
+function loginRequired(req, res, next) {
+    if (req.session && req.session.username) {
+        return next();
+    } else {
+        req.session.returnTo = req.originalUrl;
+        return res.redirect('/login');
+    }
+}
+
+function adminRequired(req, res, next) {
+    if (req.session && req.session.username) {
+        if(req.session.role === "admin") {
+            return next();
+        } else {
+            return res.send('Access Denied!');
+        }
+    } else {
+        req.session.returnTo = req.originalUrl;
+        return res.redirect('/login');
+    }
+}
 
 export default app;
