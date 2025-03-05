@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS "user" (
 	"id"	INTEGER NOT NULL,
+    "email"	TEXT
 	"creation"	INTEGER,
 	PRIMARY KEY("id" AUTOINCREMENT)
 );
@@ -24,6 +25,7 @@ CREATE TABLE IF NOT EXISTS "credentials" (
 	"user_id"	INTEGER NOT NULL,
 	"username"	TEXT NOT NULL UNIQUE,
 	"password"	TEXT NOT NULL,
+    "displayname"	TEXT,
 	PRIMARY KEY("id" AUTOINCREMENT),
 	FOREIGN KEY("user_id") REFERENCES "user"("id")
 );
