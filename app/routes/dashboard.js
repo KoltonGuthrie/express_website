@@ -1,7 +1,7 @@
 import express from "express";
 import { getCredentialsByUsername } from '../database/credentials.js'
 import { getUserRoleById } from '../database/roles.js'
-import { getUserById } from '../database/user.js'
+import { getUserById, getAllUserDetails } from '../database/user.js'
 const router = express.Router();
 
 router.use(async (req, res, next) => {
@@ -33,9 +33,14 @@ router.get("/", (req, res) => {
   res.redirect("dashboard/users");
 });
 
-router.get("/users", (req, res) => {
+router.get("/users", async (req, res) => {
+
+    const data = {};
+
+    const users = await getAllUserDetails();
+
   res.render("dashboard/users", {
-    users: [{ id: 1, username: "test" }],
+    users,
   });
 });
 
