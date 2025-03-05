@@ -17,8 +17,8 @@
                     <a href="settings" class="settings-btn nav-btn"><span class="material-symbols-outlined">settings</span><p class="nav-content">Settings</p></a>
                     <div class="sidebar-nav-bottom">
                         <div class="user-info">
-                            <a href="profile"><img id="user-image" src="https://ui-avatars.com/api/?name=<%= currentUser.username %>&background=0D8ABC&color=fff"></img></a>
-                            <p id="user-name"><%= currentUser.username %></p>
+                            <a href="profile"><img id="user-image" src="https://ui-avatars.com/api/?name=<%= currentUser.displayname || currentUser.username %>&background=0D8ABC&color=fff"></img></a>
+                            <p id="user-name"><%= currentUser.displayname || currentUser.username %></p>
                             <p id="user-role"><%= currentUser.role %></p>
                         </div>
                         <a href="/logout" class="logout-btn nav-btn"><span class="material-symbols-outlined">logout</span><p class="nav-content">Logout</p></a>
