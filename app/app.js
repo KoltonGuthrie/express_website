@@ -3,7 +3,7 @@ import express from 'express';
 import session from 'express-session';
 import ejsLayouts from 'express-ejs-layouts';
 import dashboardRoute from './routes/dashboard.js';
-import { isLoggedIn } from './utils.js'
+import { isLoggedIn, loginRequired, adminRequired } from './utils.js'
 import { isValidCredentials, getCredentialsByUsername } from './database/credentials.js';
 import { getUserRoleById } from './database/roles.js';
 
@@ -82,27 +82,5 @@ app.get('/logout', (req, res) => {
     req.session.destroy();
     res.redirect("/#logout-success");
 });
-
-function loginRequired(req, res, next) {
-    if (req.session && req.session.username) {
-        return next();
-    } else {
-        req.session.returnTo = req.originalUrl;
-        return res.redirect('/login');
-    }
-}
-
-function adminRequired(req, res, next) {
-    if (req.session && req.session.username) {
-        if(req.session.role === "admin") {
-            return next();
-        } else {
-            return res.send('Access Denied!');
-        }
-    } else {
-        req.session.returnTo = req.originalUrl;
-        return res.redirect('/login');
-    }
-}
 
 export default app;
