@@ -35,7 +35,7 @@ function getCredentialsByUsername(username) {
 }
 
 async function isValidCredentials(username, password) {
-  const user = getCredentialsByUsername(username);
+  const user = await getCredentialsByUsername(username);
 
   if(!user)
     return false;
@@ -44,4 +44,4 @@ async function isValidCredentials(username, password) {
   
 }
 
-export { isValidCredentials };
+export { isValidCredentials, getCredentialsByUsername };
