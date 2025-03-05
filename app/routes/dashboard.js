@@ -23,6 +23,9 @@ router.use(async (req, res, next) => {
 
     res.locals.currentUser = data;
 
+    // Use dashboard/layout for all pages in this route 
+    req.app.set('layout', 'dashboard/layout');
+
     next();
 });
 
@@ -32,27 +35,20 @@ router.get("/", (req, res) => {
 
 router.get("/users", (req, res) => {
   res.render("dashboard/users", {
-    layout: "dashboard/layout",
     users: [{ id: 1, username: "test" }],
   });
 });
 
 router.get("/settings", (req, res) => {
-  res.render("dashboard/settings", {
-    layout: "dashboard/layout",
-  });
+  res.render("dashboard/settings");
 });
 
 router.get("/reports", (req, res) => {
-  res.render("dashboard/reports", {
-    layout: "dashboard/layout",
-  });
+  res.render("dashboard/reports");
 });
 
 router.get("/profile", (req, res) => {
-  res.render("dashboard/profile", {
-    layout: "dashboard/layout",
-  });
+  res.render("dashboard/profile");
 });
 
 export default router;
