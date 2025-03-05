@@ -44,7 +44,7 @@ app.use('/dashboard', loginRequired, adminRequired);
 app.use('/dashboard', dashboardRoute);
 
 app.get('/', (req, res) => {
-    res.send("Hello, World!");
+    res.render('home', {isLoggedIn: !isLoggedIn(req)});
 });
 
 app.get('/login', (req, res) => {
@@ -80,7 +80,7 @@ app.post('/login', async (req, res) => {
 
 app.get('/logout', (req, res) => {
     req.session.destroy();
-    res.send("Logged out.");
+    res.redirect("/#logout-success");
 });
 
 function loginRequired(req, res, next) {
