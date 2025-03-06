@@ -3,6 +3,7 @@ import express from "express"
 import session from "express-session"
 import ejsLayouts from "express-ejs-layouts"
 import dashboardRoute from "./routes/dashboard.js"
+import apiRoute from "./routes/api.js"
 import { isLoggedIn, loginRequired, adminRequired, parseSettings } from "./utils.js"
 import { isValidCredentials, getCredentialsByUsername } from "./database/credentials.js"
 import { getUserRoleById } from "./database/roles.js"
@@ -49,6 +50,7 @@ app.use("/dashboard", loginRequired, adminRequired)
 /* ##### LOGIN REQUIRED ROUTS END ##### */
 
 app.use("/dashboard", dashboardRoute)
+app.use("/api", apiRoute)
 
 app.get("/", (req, res) => {
   res.render("home", { isLoggedIn: !isLoggedIn(req) })
