@@ -1,82 +1,121 @@
-/* General Styles */
-body {
-  font-family: "Arial", sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f8f9fa;
-}
-
-/* Navigation Bar */
-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 10%;
-  background-color: #333;
-  color: white;
-}
-
-.logo {
-  font-size: 1.5em;
-  font-weight: bold;
-}
-
-.nav-links {
-  list-style: none;
-  display: flex;
-  gap: 20px;
-}
-
-.nav-links li {
-  display: inline;
-}
-
-.nav-links a {
-  color: white;
-  text-decoration: none;
-  font-size: 1em;
-}
-
-.btn {
-  padding: 8px 15px;
-  background-color: #4caf50;
-  border-radius: 5px;
-  text-decoration: none;
-  color: white;
-  transition: background 0.3s;
-}
-
-.btn:hover {
-  background-color: #45a049;
-}
-
-/* Hero Section */
-.hero {
-  height: 90vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  background:
-    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url("/images/hero-bg.jpg") center/cover;
-  color: white;
-}
-
-.hero-content h1 {
-  font-size: 2.5em;
-  margin-bottom: 10px;
-}
-
-.hero-content p {
-  font-size: 1.2em;
-  margin-bottom: 20px;
-}
-
-/* Footer */
-footer {
-  text-align: center;
-  padding: 10px;
-  background-color: #333;
-  color: white;
-}
+:root {
+    --text-color-dark: white;
+    --background-dark: #1e1e1e;
+    --nav-background-dark: #333;
+    --button-background-dark: #2d2f7d;
+    --button-hover-dark: #2b2c74;
+  
+    --text-color-light: black;
+    --background-light: #f8f9fa;
+    --nav-background-light: #ddd;
+    --button-background-light: #4caf50;
+    --button-hover-light: #45a049;
+  }
+  
+  body {
+    font-family: "Arial", sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-dark);
+    color: var(--text-color-dark);
+  }
+  
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 10%;
+    background-color: var(--nav-background-dark);
+    color: var(--text-color-dark);
+  }
+  
+  .logo {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+  
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+  
+  .nav-links li {
+    display: inline;
+  }
+  
+  .nav-links a {
+    color: var(--text-color-dark);
+    text-decoration: none;
+    font-size: 1em;
+  }
+  
+  .btn {
+    padding: 8px 15px;
+    background-color: var(--button-background-dark);
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+    transition: background 0.3s;
+  }
+  
+  .btn:hover {
+    background-color: var(--button-hover-dark);
+  }
+  
+  .hero {
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: 
+      linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+      url("/PLACEHOLDER-HERO-IMAGE") center/cover;
+    color: var(--text-color-dark);
+  }
+  
+  .hero-content h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+  }
+  
+  .hero-content p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+  }
+  
+  footer {
+    text-align: center;
+    padding: 10px;
+    background-color: var(--nav-background-dark);
+    color: var(--text-color-dark);
+  }
+  
+  .light-mode {
+    background-color: var(--background-light);
+    color: var(--text-color-light);
+  }
+  
+  .light-mode nav {
+    background-color: var(--nav-background-light);
+    color: var(--text-color-light);
+  }
+  
+  .light-mode .nav-links a {
+    color: var(--text-color-light);
+  }
+  
+  .light-mode .btn {
+    background-color: var(--button-background-light);
+  }
+  
+  .light-mode .btn:hover {
+    background-color: var(--button-hover-light);
+  }
+  
+  .light-mode footer {
+    background-color: var(--nav-background-light);
+    color: var(--text-color-light);
+  }
+  
