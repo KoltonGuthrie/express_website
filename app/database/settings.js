@@ -61,6 +61,8 @@ function updateSettings(id, settings) {
 
     const allSettings = (await getAllSettings()).rows.map((i) => i.name)
 
+    if (allSettings.length <= 0) return resolve(0) // There are no settings :(
+
     let parms = []
 
     for (let i = 0; i < Object.keys(settings).length; i++) {
@@ -72,7 +74,7 @@ function updateSettings(id, settings) {
       parms.push([id, key, value])
     }
 
-    if (parms.length <= 0) resolve(0)
+    if (parms.length <= 0) return resolve(0)
 
     let sql = UPDATE_SETTINGS_PARTIAL_QUERY + parms.map((_) => UPDATE_SETTINGS_PARTIAL_VALUES).join(", ")
 
