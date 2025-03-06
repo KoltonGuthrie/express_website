@@ -1,32 +1,58 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Sidebar</title>
-        <link rel="stylesheet" href="/css/dashboard/styles.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    </head>
-    <body>
-        <div class="sidebar">
-            <div class="sidebar-content">
-                <div class="sidebar-nav">
-                    <a href="/" class="home-btn nav-btn"><span class="material-symbols-outlined">home</span><p class="nav-content">Home</p></a>
-                    <a href="users" class="users-btn nav-btn"><span class="material-symbols-outlined">manage_accounts</span><p class="nav-content">Users</p></a>
-                    <a href="reports" class="reports-btn nav-btn"><span class="material-symbols-outlined">receipt_long</span><p class="nav-content">Reports</p></a>
-                    <a href="profile" class="profile-btn nav-btn"><span class="material-symbols-outlined">person</span><p class="nav-content">Profile</p></a>
-                    <a href="settings" class="settings-btn nav-btn"><span class="material-symbols-outlined">settings</span><p class="nav-content">Settings</p></a>
-                    <div class="sidebar-nav-bottom">
-                        <div class="user-info">
-                            <a href="profile"><img id="user-image" src="https://ui-avatars.com/api/?name=<%= currentUser.displayname || currentUser.username %>&background=0D8ABC&color=fff"></img></a>
-                            <p id="user-name"><%= currentUser.displayname || currentUser.username %></p>
-                            <p id="user-role"><%= currentUser.role %></p>
-                        </div>
-                        <a href="/logout" class="logout-btn nav-btn"><span class="material-symbols-outlined">logout</span><p class="nav-content">Logout</p></a>
-                    </div>
-                </div>
+  <head>
+    <title>Sidebar</title>
+    <link rel="stylesheet" href="/css/dashboard/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <div class="sidebar">
+      <div class="sidebar-content">
+        <div class="sidebar-nav">
+          <a href="/" class="home-btn nav-btn"
+            ><span class="material-symbols-outlined">home</span>
+            <p class="nav-content">Home</p></a
+          >
+          <a href="users" class="users-btn nav-btn"
+            ><span class="material-symbols-outlined">manage_accounts</span>
+            <p class="nav-content">Users</p></a
+          >
+          <a href="reports" class="reports-btn nav-btn"
+            ><span class="material-symbols-outlined">receipt_long</span>
+            <p class="nav-content">Reports</p></a
+          >
+          <a href="profile" class="profile-btn nav-btn"
+            ><span class="material-symbols-outlined">person</span>
+            <p class="nav-content">Profile</p></a
+          >
+          <a href="settings" class="settings-btn nav-btn"
+            ><span class="material-symbols-outlined">settings</span>
+            <p class="nav-content">Settings</p></a
+          >
+          <div class="sidebar-nav-bottom">
+            <div class="user-info">
+              <a href="profile"
+                ><img
+                  id="user-image"
+                  src="https://ui-avatars.com/api/?name=<%= currentUser.displayname || currentUser.username %>&background=0D8ABC&color=fff"
+              /></a>
+              <p id="user-name">
+                <%= currentUser.displayname || currentUser.username %>
+              </p>
+              <p id="user-role"><%= currentUser.role %></p>
             </div>
+            <a href="/logout" class="logout-btn nav-btn"
+              ><span class="material-symbols-outlined">logout</span>
+              <p class="nav-content">Logout</p></a
+            >
+          </div>
         </div>
-        <div class="content">
-            <%- body %>
-        </div>
-    </body>
+      </div>
+    </div>
+    <div class="content"><%- body %></div>
+  </body>
+</html>

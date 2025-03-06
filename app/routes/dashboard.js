@@ -1,32 +1,32 @@
 import express from "express";
-import { getCredentialsByUsername } from '../database/credentials.js'
-import { getUserRoleById } from '../database/roles.js'
-import { getUserById, getAllUserDetails } from '../database/user.js'
+import { getCredentialsByUsername } from "../database/credentials.js";
+import { getUserRoleById } from "../database/roles.js";
+import { getUserById, getAllUserDetails } from "../database/user.js";
 const router = express.Router();
 
 router.use(async (req, res, next) => {
-    const username = req.session.username;
-    if(!username) return res.send("Internal server error").status(500);
+  const username = req.session.username;
+  if (!username) return res.send("Internal server error").status(500);
 
-    const data = {};
+  const data = {};
 
-    const creds = await getCredentialsByUsername(username);
-    if(!creds?.user_id) return res.send("Internal server error").status(500);
-    data.username = creds.username;
-    data.displayname = creds.displayname;
+  const creds = await getCredentialsByUsername(username);
+  if (!creds?.user_id) return res.send("Internal server error").status(500);
+  data.username = creds.username;
+  data.displayname = creds.displayname;
 
-    const user = await getUserById(creds.user_id);
-    data.email = user.email;
+  const user = await getUserById(creds.user_id);
+  data.email = user.email;
 
-    const role = await getUserRoleById(creds.user_id);
-    data.role = role.name;
+  const role = await getUserRoleById(creds.user_id);
+  data.role = role.name;
 
-    res.locals.currentUser = data;
+  res.locals.currentUser = data;
 
-    // Use dashboard/layout for all pages in this route 
-    req.app.set('layout', 'dashboard/layout');
+  // Use dashboard/layout for all pages in this route
+  req.app.set("layout", "dashboard/layout");
 
-    next();
+  next();
 });
 
 router.get("/", (req, res) => {
@@ -34,10 +34,9 @@ router.get("/", (req, res) => {
 });
 
 router.get("/users", async (req, res) => {
+  const data = {};
 
-    const data = {};
-
-    const users = await getAllUserDetails();
+  const users = await getAllUserDetails();
 
   res.render("dashboard/users", {
     users,
