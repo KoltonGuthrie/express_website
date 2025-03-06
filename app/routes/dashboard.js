@@ -10,15 +10,15 @@ router.use(async (req, res, next) => {
 
   const data = {}
 
-  const creds = await getCredentialsByUsername(username)
+  const creds = (await getCredentialsByUsername(username)).rows
   if (!creds?.user_id) return res.send("Internal server error").status(500)
   data.username = creds.username
   data.displayname = creds.displayname
 
-  const user = await getUserById(creds.user_id)
+  const user = (await getUserById(creds.user_id)).rows
   data.email = user.email
 
-  const role = await getUserRoleById(creds.user_id)
+  const role = (await getUserRoleById(creds.user_id)).rows
   data.role = role.name
 
   res.locals.currentUser = data
@@ -36,7 +36,7 @@ router.get("/", (req, res) => {
 })
 
 router.get("/users", async (req, res) => {
-  const users = await getAllUserDetails()
+  const users = (await getAllUserDetails()).rows
 
   res.render("dashboard/users", {
     users

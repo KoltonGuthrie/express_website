@@ -33,9 +33,9 @@ app.use(ejsLayouts)
 app.use(async (req, res, next) => {
   // Load settings into the session (only for users that are logged-in)
   if (req.session.username) {
-    const user = await getCredentialsByUsername(req.session.username)
+    const user = (await getCredentialsByUsername(req.session.username)).rows
     if (user.user_id) {
-      req.session.settings = parseSettings(await getUserSettingsById(user.user_id))
+      req.session.settings = parseSettings((await getUserSettingsById(user.user_id)).rows)
     }
   }
 
@@ -56,7 +56,7 @@ app.get("/", (req, res) => {
   res.render("home", { isLoggedIn: !isLoggedIn(req) })
 })
 
-app.get("/login", (req, res) => {
+app.get("/login", async (req, res) => {
   if (isLoggedIn(req)) return res.redirect("/")
 
   res.render("login")
@@ -67,8 +67,8 @@ app.post("/login", async (req, res) => {
     const { username, password } = req.body
 
     if (isValidCredentials(username, password)) {
-      const id = (await getCredentialsByUsername(username)).user_id
-      const role = (await getUserRoleById(id)).name
+      const id = (await getCredentialsByUsername(username)).rows.user_id
+      const role = (await getUserRoleById(id)).rows.name
 
       req.session.username = username
       req.session.role = role

@@ -1,16 +1,7 @@
-import sqlite3 from "sqlite3"
+import { openDatabase, getColumns } from "./utils.js"
 
 const UPDATE_SETTINGS_PARTIAL_QUERY = `INSERT OR REPLACE INTO user_settings (user_id, setting_id, value) VALUES`
 const UPDATE_SETTINGS_PARTIAL_VALUES = `(?, (SELECT id FROM settings WHERE name = ?), ?)`
-
-function openDatabase() {
-  const db = new sqlite3.Database("./app/database/database.db", sqlite3.OPEN_CREATE | sqlite3.OPEN_READWRITE, (err) => {
-    if (err) {
-      console.error(err.message)
-    }
-  })
-  return db
-}
 
 function getUserSettingsById(id) {
   return new Promise((resolve, reject) => {
@@ -21,12 +12,13 @@ function getUserSettingsById(id) {
         JOIN settings AS s ON setting_id = s.id
         WHERE user_id = ?`,
       [id],
-      (err, row) => {
+      (err, rows) => {
         if (err) {
           console.log(err)
           reject("Error querying the database:", err)
         } else {
-          resolve(row)
+          let json = { columns: getColumns(rows), rows: rows }
+          resolve(json)
         }
       }
     )
@@ -43,12 +35,13 @@ function getAllSettings() {
   return new Promise((resolve, reject) => {
     const db = openDatabase()
 
-    db.all(`SELECT * FROM settings`, (err, row) => {
+    db.all(`SELECT * FROM settings`, (err, rows) => {
       if (err) {
         console.log(err)
         reject("Error querying the database:", err)
       } else {
-        resolve(row)
+        let json = { columns: getColumns(rows), rows: rows }
+        resolve(json)
       }
     })
 
@@ -66,7 +59,7 @@ function updateSettings(id, settings) {
   return new Promise(async (resolve, reject) => {
     const db = openDatabase()
 
-    const allSettings = (await getAllSettings()).map((i) => i.name)
+    const allSettings = (await getAllSettings()).rows.map((i) => i.name)
 
     let parms = []
 

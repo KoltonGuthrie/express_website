@@ -1,13 +1,4 @@
-import sqlite3 from "sqlite3"
-
-function openDatabase() {
-  const db = new sqlite3.Database("./app/database/database.db", sqlite3.OPEN_CREATE | sqlite3.OPEN_READWRITE, (err) => {
-    if (err) {
-      console.error(err.message)
-    }
-  })
-  return db
-}
+import { openDatabase, getColumns } from "./utils.js"
 
 function getUserById(id) {
   return new Promise((resolve, reject) => {
@@ -17,7 +8,8 @@ function getUserById(id) {
       if (err) {
         reject("Error querying the database:", err)
       } else {
-        resolve(row)
+        let json = { columns: getColumns(row), rows: row }
+        resolve(json)
       }
     })
 
@@ -30,7 +22,7 @@ function getUserById(id) {
 }
 
 function getAllUserDetails() {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     const db = openDatabase()
 
     db.all(
@@ -38,11 +30,12 @@ function getAllUserDetails() {
             JOIN credentials AS c ON user.id = c.user_id
             JOIN user_roles AS ur ON user.id = ur.user_id
             JOIN roles AS r ON ur.role_id = r.id;`,
-      (err, row) => {
+      (err, rows) => {
         if (err) {
           reject("Error querying the database:", err)
         } else {
-          resolve(row)
+          let json = { columns: getColumns(rows), rows: rows }
+          resolve(json)
         }
       }
     )
