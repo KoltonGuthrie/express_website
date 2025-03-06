@@ -51,6 +51,10 @@ form button:hover {
   background-color: var(--button-hover);
 }
 
+form button[type="submit"] {
+  margin: 10px 0 0 0;
+}
+
 /* Container for the switch */
 .switch {
   position: relative;
