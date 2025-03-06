@@ -156,7 +156,8 @@ i {
   position: absolute;
   width: -webkit-fill-available;
   width: -moz-available;
-  height: 100%;
+  max-height: fit-content;
+  min-height: 100%;
   margin-left: 60px;
   transition: margin-left 0.3s ease-in-out;
   padding: 0 0 0 10px;
