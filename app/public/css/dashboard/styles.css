@@ -39,6 +39,8 @@ h5,
 h6,
 span,
 a,
+th,
+tr,
 i {
   color: var(--text-color);
 }
