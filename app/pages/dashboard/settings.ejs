@@ -1,16 +1,18 @@
 <head>
     <link rel="stylesheet" href="/css/dashboard/settings/styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery -->
+    <script src="/js/settings/settingsAjax.js"></script>
 </head>
 
 <section id="settings" class="dashboard-section">
     <h2>Configure Settings</h2>
     <form id="settings-form">
         <label for="site-title">Site Title:</label>
-        <input type="text" id="site-title" name="site-title" value="<%= settings.siteTitle %>">
+        <input type="text" id="site-title" name="website-settings-site-title" value="<%= settings.siteTitle %>">
 
         <label for="display-mode">Dark Mode:</label>
         <label class="switch">
-            <input type="checkbox" id="switch" name="display-mode" <% if (settings['website-settings-display-mode'] === 'dark') { %>checked<% } %> onchange="document.getElementById('switch').value = document.getElementById('switch').checked ? 'on' : 'off';">
+            <input type="checkbox" id="display-mode" name="website-settings-display-mode" <% if (settings['website-settings-display-mode'] === 'dark') { %>checked<% } %> >
             <span class="slider"></span>
         </label>
         
