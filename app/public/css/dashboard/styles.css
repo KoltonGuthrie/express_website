@@ -69,8 +69,7 @@ i {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: -webkit-fill-available;
-  height: -moz-fill-available;
+  height: 100%;
 }
 
 .sidebar-nav .nav-btn {
@@ -154,7 +153,7 @@ i {
 .content {
   position: absolute;
   width: -webkit-fill-available;
-  width: -moz-fill-available;
+  width: -moz-available;
   height: 100%;
   margin-left: 60px;
   transition: margin-left 0.3s ease-in-out;
