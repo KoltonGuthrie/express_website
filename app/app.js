@@ -3,9 +3,10 @@ import express from "express"
 import session from "express-session"
 import ejsLayouts from "express-ejs-layouts"
 import dashboardRoute from "./routes/dashboard.js"
-import { isLoggedIn, loginRequired, adminRequired } from "./utils.js"
+import { isLoggedIn, loginRequired, adminRequired, parseSettings } from "./utils.js"
 import { isValidCredentials, getCredentialsByUsername } from "./database/credentials.js"
 import { getUserRoleById } from "./database/roles.js"
+import { getUserSettingsById } from "./database/settings.js"
 
 const app = express()
 
@@ -28,6 +29,19 @@ app.set("view engine", "ejs")
 app.set("views", "./app/pages")
 app.use(ejsLayouts)
 
+app.use(async (req, res, next) => {
+  // Load settings into the session (only for users that are logged-in)
+  if (req.session.username) {
+    const user = await getCredentialsByUsername(req.session.username)
+    if (user.user_id) {
+      req.session.settings = parseSettings(await getUserSettingsById(user.user_id))
+    }
+  }
+
+  req.app.set("layout", false) // Set layout
+  next()
+})
+
 /* ##### LOGIN REQUIRED ROUTS START ##### */
 
 app.use("/dashboard", loginRequired, adminRequired)
@@ -35,12 +49,6 @@ app.use("/dashboard", loginRequired, adminRequired)
 /* ##### LOGIN REQUIRED ROUTS END ##### */
 
 app.use("/dashboard", dashboardRoute)
-
-// Set layout
-app.use((req, res, next) => {
-  req.app.set("layout", false)
-  next()
-})
 
 app.get("/", (req, res) => {
   res.render("home", { isLoggedIn: !isLoggedIn(req) })

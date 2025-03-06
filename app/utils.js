@@ -24,4 +24,13 @@ function adminRequired(req, res, next) {
   }
 }
 
-export { isLoggedIn, loginRequired, adminRequired }
+function parseSettings(settings) {
+  const data = {}
+  for (let setting of settings) {
+    data[setting.setting_name] = setting.value
+  }
+
+  return data
+}
+
+export { isLoggedIn, loginRequired, adminRequired, parseSettings }
