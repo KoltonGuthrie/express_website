@@ -30,8 +30,17 @@
   font-family: "Roboto", sans-serif;
 }
 
-p, h1, h2, h3, h4, h5, h6, span, a, i {
-    color: var(--text-color); 
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span,
+a,
+i {
+  color: var(--text-color);
 }
 
 /* Sidebar */
@@ -44,7 +53,7 @@ p, h1, h2, h3, h4, h5, h6, span, a, i {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  box-shadow: 3px 0 10px var(--sidebar-shadow); 
+  box-shadow: 3px 0 10px var(--sidebar-shadow);
 }
 
 .sidebar-content {
@@ -132,7 +141,7 @@ p, h1, h2, h3, h4, h5, h6, span, a, i {
 
 /* Improved Hover Effect */
 .sidebar-nav .nav-btn:hover {
-  background: var(--button-hover); 
+  background: var(--button-hover);
   cursor: pointer;
 }
 
@@ -150,7 +159,7 @@ p, h1, h2, h3, h4, h5, h6, span, a, i {
   margin-left: 60px;
   transition: margin-left 0.3s ease-in-out;
   padding: 0 0 0 10px;
-  background: var(--content-background); 
+  background: var(--content-background);
 }
 
 :has(.sidebar:hover) .content {
@@ -174,17 +183,26 @@ p, h1, h2, h3, h4, h5, h6, span, a, i {
   --nav-button-color: var(--nav-button-color-light);
 }
 
-.light-mode p, h1, h2, h3, h4, h5, h6, span, a, i {
+.light-mode p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span,
+a,
+i {
   color: var(--text-color);
 }
 
 .light-mode .sidebar {
-  background: var(--sidebar-background); 
-  box-shadow: 3px 0 10px var(--sidebar-shadow); 
+  background: var(--sidebar-background);
+  box-shadow: 3px 0 10px var(--sidebar-shadow);
 }
 
 .light-mode .sidebar-nav .nav-btn:hover {
-  background: var(--button-hover); 
+  background: var(--button-hover);
 }
 
 .light-mode .sidebar-nav .nav-btn:active {

@@ -1,47 +1,46 @@
 /* Reports Section */
 :root {
-    /* Dark Mode Colors */
-    --text-color-dark: white;
-    --button-background-dark: #2d2f7d;
-    --button-hover-dark: #2b2c74;
-  
-    /* Light Mode Colors */
-    --text-color-light: black;
-    --button-background-light: #4caf50;
-    --button-hover-light: #45a049;
-  }
-  
-  #reports {
-    padding: 20px;
-    color: var(--text-color-dark);
-  }
-  
-  #report-container {
-    margin-top: 20px;
-  }
-  
-  #load-reports {
-    padding: 10px;
-    background-color: var(--button-background-dark);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  #load-reports:hover {
-    background-color: var(--button-hover-dark);
-  }
-  
-  .light-mode #reports {
-    color: var(--text-color-light);
-  }
-  
-  .light-mode #load-reports {
-    background-color: var(--button-background-light);
-  }
-  
-  .light-mode #load-reports:hover {
-    background-color: var(--button-hover-light);
-  }
-  
+  /* Dark Mode Colors */
+  --text-color-dark: white;
+  --button-background-dark: #2d2f7d;
+  --button-hover-dark: #2b2c74;
+
+  /* Light Mode Colors */
+  --text-color-light: black;
+  --button-background-light: #4caf50;
+  --button-hover-light: #45a049;
+}
+
+#reports {
+  padding: 20px;
+  color: var(--text-color-dark);
+}
+
+#report-container {
+  margin-top: 20px;
+}
+
+#load-reports {
+  padding: 10px;
+  background-color: var(--button-background-dark);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#load-reports:hover {
+  background-color: var(--button-hover-dark);
+}
+
+.light-mode #reports {
+  color: var(--text-color-light);
+}
+
+.light-mode #load-reports {
+  background-color: var(--button-background-light);
+}
+
+.light-mode #load-reports:hover {
+  background-color: var(--button-hover-light);
+}

@@ -37,7 +37,10 @@ app.use("/dashboard", loginRequired, adminRequired)
 app.use("/dashboard", dashboardRoute)
 
 // Set layout
-app.use((req, res, next) => { req.app.set("layout", false); next(); });
+app.use((req, res, next) => {
+  req.app.set("layout", false)
+  next()
+})
 
 app.get("/", (req, res) => {
   res.render("home", { isLoggedIn: !isLoggedIn(req) })

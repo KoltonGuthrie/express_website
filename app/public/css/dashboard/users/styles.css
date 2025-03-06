@@ -1,65 +1,65 @@
 :root {
-    /* Dark Mode Colors */
-    --text-color-dark: white;
-    --button-background-dark: #2d2f7d;
-    --button-hover-dark: #2b2c74;
-    --table-border-dark: #ddd;
-  
-    /* Light Mode Colors */
-    --text-color-light: black;
-    --button-background-light: #4caf50;
-    --button-hover-light: #45a049;
-    --table-border-light: #000;
-  }
-  
-  * {
-    color: var(--text-color-dark); 
-  }
-  
-  #users {
-    padding: 20px;
-  }
-  
-  #user-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-  }
-  
-  #user-table th,
-  #user-table td {
-    padding: 10px;
-    border: 1px solid var(--table-border-dark); 
-  }
-  
-  button {
-    padding: 8px 15px;
-    background-color: var(--button-background-dark); 
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-  }
-  
-  button:hover {
-    background-color: var(--button-hover-dark); 
-  }
-  
-  /* Light Mode Styles */
-  .light-mode * {
-    color: var(--text-color-light); 
-  }
-  
-  .light-mode #user-table th,
-  .light-mode #user-table td {
-    border: 1px solid var(--table-border-light); 
-  }
-  
-  .light-mode button {
-    background-color: var(--button-background-light);
-  }
-  
-  .light-mode button:hover {
-    background-color: var(--button-hover-light);
-  }
+  /* Dark Mode Colors */
+  --text-color-dark: white;
+  --button-background-dark: #2d2f7d;
+  --button-hover-dark: #2b2c74;
+  --table-border-dark: #ddd;
+
+  /* Light Mode Colors */
+  --text-color-light: black;
+  --button-background-light: #4caf50;
+  --button-hover-light: #45a049;
+  --table-border-light: #000;
+}
+
+* {
+  color: var(--text-color-dark);
+}
+
+#users {
+  padding: 20px;
+}
+
+#user-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+#user-table th,
+#user-table td {
+  padding: 10px;
+  border: 1px solid var(--table-border-dark);
+}
+
+button {
+  padding: 8px 15px;
+  background-color: var(--button-background-dark);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: var(--button-hover-dark);
+}
+
+/* Light Mode Styles */
+.light-mode * {
+  color: var(--text-color-light);
+}
+
+.light-mode #user-table th,
+.light-mode #user-table td {
+  border: 1px solid var(--table-border-light);
+}
+
+.light-mode button {
+  background-color: var(--button-background-light);
+}
+
+.light-mode button:hover {
+  background-color: var(--button-hover-light);
+}
