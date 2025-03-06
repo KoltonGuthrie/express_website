@@ -3,10 +3,7 @@
   <head>
     <title>Sidebar</title>
     <link rel="stylesheet" href="/css/dashboard/styles.css" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-    />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <body>
@@ -40,9 +37,7 @@
                   id="user-image"
                   src="https://ui-avatars.com/api/?name=<%= currentUser.displayname || currentUser.username %>&background=0D8ABC&color=fff"
               /></a>
-              <p id="user-name">
-                <%= currentUser.displayname || currentUser.username %>
-              </p>
+              <p id="user-name"><%= currentUser.displayname || currentUser.username %></p>
               <p id="user-role"><%= currentUser.role %></p>
             </div>
             <a href="/logout" class="logout-btn nav-btn"

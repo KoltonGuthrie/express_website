@@ -21,12 +21,8 @@
         <td><%= user.username %></td>
         <td><%= user.role %></td>
         <td>
-          <button class="edit-btn" onclick="editUser('<%= user.id %>')">
-            Edit
-          </button>
-          <button class="delete-btn" onclick="deleteUser('<%= user.id %>')">
-            Delete
-          </button>
+          <button class="edit-btn" onclick="editUser('<%= user.id %>')">Edit</button>
+          <button class="delete-btn" onclick="deleteUser('<%= user.id %>')">Delete</button>
         </td>
       </tr>
       <% }); %>
