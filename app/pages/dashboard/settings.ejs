@@ -7,12 +7,12 @@
     <form id="settings-form">
         <label for="site-title">Site Title:</label>
         <input type="text" id="site-title" name="site-title" value="<%= settings.siteTitle %>">
-        
-        <label for="theme">Theme:</label>
-        <select id="theme" name="theme">
-            <option value="light" <% if (settings.theme === 'light') { %>selected<% } %> >Light</option>
-            <option value="dark" <% if (settings.theme === 'dark') { %>selected<% } %> >Dark</option>
-        </select>
+
+        <label for="display-mode">Dark Mode:</label>
+        <label class="switch">
+            <input type="checkbox" id="switch" name="display-mode" <% if (settings['website-settings-display-mode'] === 'dark') { %>checked<% } %> onchange="document.getElementById('switch').value = document.getElementById('switch').checked ? 'on' : 'off';">
+            <span class="slider"></span>
+        </label>
         
         <button type="submit">Save Settings</button>
     </form>
