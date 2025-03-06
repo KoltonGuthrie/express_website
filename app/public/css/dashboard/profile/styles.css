@@ -1,29 +1,61 @@
 /* Profile Section */
-#profile {
-  padding: 20px;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-}
-
-form input {
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-}
-
-form button {
-  padding: 10px;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-form button:hover {
-  background-color: #45a049;
-}
+:root {
+    /* Dark Mode Colors */
+    --text-color-dark: white;
+    --input-border-dark: #ccc;
+    --button-background-dark: #2d2f7d;
+    --button-hover-dark: #2b2c74;
+  
+    /* Light Mode Colors */
+    --text-color-light: black;
+    --input-border-light: #000;
+    --button-background-light: #4caf50;
+    --button-hover-light: #45a049;
+  }
+  
+  #profile {
+    padding: 20px;
+    color: var(--text-color-dark);
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  form input {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    border: 1px solid var(--input-border-dark);
+  }
+  
+  form button {
+    padding: 10px;
+    background-color: var(--button-background-dark);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  form button:hover {
+    background-color: var(--button-hover-dark);
+  }
+  
+  .light-mode #profile {
+    color: var(--text-color-light);
+  }
+  
+  .light-mode form input {
+    border: 1px solid var(--input-border-light);
+  }
+  
+  .light-mode form button {
+    background-color: var(--button-background-light);
+  }
+  
+  .light-mode form button:hover {
+    background-color: var(--button-hover-light);
+  }
+  

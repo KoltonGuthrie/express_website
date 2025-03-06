@@ -1,35 +1,71 @@
 /* Settings Section */
-#settings {
-  padding: 20px;
-}
+:root {
+    /* Dark Mode Colors */
+    --text-color-dark: white;
+    --button-background-dark: #2d2f7d;
+    --button-hover-dark: #2b2c74;
+    --table-border-dark: #ddd;
+    --input-border-dark: #ccc;
+  
+    /* Light Mode Colors */
+    --text-color-light: black;
+    --button-background-light: #4caf50;
+    --button-hover-light: #45a049;
+    --table-border-light: #000;
+    --input-border-light: #000;
+  }
+  
+  #settings {
+    padding: 20px;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  form label {
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: var(--text-color-dark); 
+  }
+  
+  form input,
+  form select {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    border: 1px solid var(--input-border-dark); 
+  }
+  
+  form button {
+    padding: 10px;
+    background-color: var(--button-background-dark); 
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  form button:hover {
+    background-color: var(--button-hover-dark); 
+  }
+  
 
-form {
-  display: flex;
-  flex-direction: column;
-}
-
-form label {
-  margin-bottom: 10px;
-  font-weight: bold;
-}
-
-form input,
-form select {
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-}
-
-form button {
-  padding: 10px;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-form button:hover {
-  background-color: #45a049;
-}
+  .light-mode form label {
+    color: var(--text-color-light); 
+  }
+  
+  .light-mode form input,
+  .light-mode form select {
+    border: 1px solid var(--input-border-light); 
+  }
+  
+  .light-mode form button {
+    background-color: var(--button-background-light); 
+  }
+  
+  .light-mode form button:hover {
+    background-color: var(--button-hover-light); 
+  }
+  
