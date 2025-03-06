@@ -27,7 +27,6 @@ app.use(express.urlencoded({ extended: true }))
 app.set("view engine", "ejs")
 app.set("views", "./app/pages")
 app.use(ejsLayouts)
-app.set("layout", false)
 
 /* ##### LOGIN REQUIRED ROUTS START ##### */
 
@@ -36,6 +35,9 @@ app.use("/dashboard", loginRequired, adminRequired)
 /* ##### LOGIN REQUIRED ROUTS END ##### */
 
 app.use("/dashboard", dashboardRoute)
+
+// Set layout
+app.use((req, res, next) => { req.app.set("layout", false); next(); });
 
 app.get("/", (req, res) => {
   res.render("home", { isLoggedIn: !isLoggedIn(req) })
