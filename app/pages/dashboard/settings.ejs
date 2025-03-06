@@ -10,8 +10,8 @@
         
         <label for="theme">Theme:</label>
         <select id="theme" name="theme">
-            <option value="light" <%= settings.theme === 'light' ? 'selected' : '' %>>Light</option>
-            <option value="dark" <%= settings.theme === 'dark' ? 'selected' : '' %>>Dark</option>
+            <option value="light" <% if (settings.theme === 'light') { %>selected<% } %> >Light</option>
+            <option value="dark" <% if (settings.theme === 'dark') { %>selected<% } %> >Dark</option>
         </select>
         
         <button type="submit">Save Settings</button>
