@@ -36,10 +36,11 @@ router.get("/", (req, res) => {
 })
 
 router.get("/users", async (req, res) => {
-  const users = (await getAllUserDetails()).rows
+  const users = await getAllUserDetails()
 
   res.render("dashboard/users", {
-    users
+    users: users.rows,
+    columns: users.columns
   })
 })
 
