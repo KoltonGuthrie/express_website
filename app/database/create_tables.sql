@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS "user" (
 	"id"	INTEGER NOT NULL,
-    "email"	TEXT
+    "email"	TEXT,
 	"creation"	INTEGER,
 	PRIMARY KEY("id" AUTOINCREMENT)
 );
