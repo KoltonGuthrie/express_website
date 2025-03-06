@@ -23,6 +23,8 @@ router.use(async (req, res, next) => {
 
   res.locals.currentUser = data
 
+  res.locals.settings = req.session.settings
+
   // Use dashboard/layout for all pages in this route
   req.app.set("layout", "dashboard/layout")
 
