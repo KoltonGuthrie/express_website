@@ -8,6 +8,11 @@ import { isLoggedIn, loginRequired, adminRequired, parseSettings } from "./utils
 import { isValidCredentials, getCredentialsByUsername } from "./database/credentials.js"
 import { getUserRoleById } from "./database/roles.js"
 import { getUserSettingsById } from "./database/settings.js"
+import ejs from "ejs"
+
+ejs.delimiter = "/"
+ejs.openDelimiter = "["
+ejs.closeDelimiter = "]"
 
 const app = express()
 

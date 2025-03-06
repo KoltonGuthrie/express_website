@@ -8,11 +8,11 @@
     <h2>Configure Settings</h2>
     <form id="settings-form">
         <label for="site-title">Site Title:</label>
-        <input type="text" id="site-title" name="website-settings-site-title" value="<%= settings.siteTitle %>">
+        <input type="text" id="site-title" name="website-settings-site-title" value="[/= settings.siteTitle /]">
 
         <label for="display-mode">Dark Mode:</label>
         <label class="switch">
-            <input type="checkbox" id="display-mode" name="website-settings-display-mode" <% if (settings['website-settings-display-mode'] === 'dark') { %>checked<% } %> >
+            <input type="checkbox" id="display-mode" name="website-settings-display-mode" [/ if (settings['website-settings-display-mode'] !== 'light') { /]checked[/ } /] >
             <span class="slider"></span>
         </label>
         
