@@ -3,6 +3,7 @@ import { updateSettings } from "../database/settings.js"
 import { getCredentialsByUsername } from "../database/credentials.js"
 import { ReasonPhrases, StatusCodes } from "http-status-codes"
 import express from "express"
+import { getAllUserDetails, getUserDetails } from "../database/user.js"
 
 const router = express.Router()
 
@@ -15,14 +16,90 @@ router.get("/", (req, res) => {
   res.send("[GET, PUT] /user and [POST] /settings")
 })
 
-router.get("/user", (req, res) => {
-  res.send("/user")
+router.put("/user", async (req, res) => {
+  try {
+    const id = req.params.id
+
+    if (!id) {
+      result.message = ReasonPhrases.BAD_REQUEST
+      return res.send(result).status(StatusCodes.BAD_REQUEST)
+    }
+
+    const result = {
+      success: false,
+      data: null,
+      message: ReasonPhrases.INTERNAL_SERVER_ERROR,
+      status: StatusCodes.INTERNAL_SERVER_ERROR
+    }
+
+    result.message = ReasonPhrases.NOT_IMPLEMENTED
+    result.success = true
+    result.status = StatusCodes.NOT_IMPLEMENTED
+
+    res.send(result).status(StatusCodes.NOT_IMPLEMENTED)
+  } catch (err) {
+    res.send(result).status(StatusCodes.INTERNAL_SERVER_ERROR)
+  }
 })
 
-router.put("/user/:id", (req, res) => {
-  const userId = req.params.id
+router.get("/user", async (req, res) => {
+  try {
+    const result = {
+      success: false,
+      data: undefined,
+      message: ReasonPhrases.INTERNAL_SERVER_ERROR,
+      status: StatusCodes.INTERNAL_SERVER_ERROR
+    }
 
-  res.send(`User ID to update: ${userId}`)
+    const data = await getAllUserDetails()
+
+    if (data) result.data = { columns: data.columns, users: data.rows }
+
+    result.message = `Returned ${data?.rows?.length || 0} user(s)`
+    result.success = true
+    result.status = StatusCodes.OK
+
+    res.send(result).status(StatusCodes.OK)
+  } catch (err) {
+    res.send(result).status(StatusCodes.INTERNAL_SERVER_ERROR)
+  }
+})
+
+router.get("/user/:id", async (req, res) => {
+  try {
+    const id = req.params.id
+
+    if (!id) {
+      result.message = ReasonPhrases.BAD_REQUEST
+      return res.send(result).status(StatusCodes.BAD_REQUEST)
+    }
+
+    const result = {
+      success: false,
+      data: undefined,
+      message: ReasonPhrases.INTERNAL_SERVER_ERROR,
+      status: StatusCodes.INTERNAL_SERVER_ERROR
+    }
+
+    const data = await getUserDetails(id)
+
+    if (!data?.rows) {
+      result.success = true
+      result.message = `No user with id ${id}`
+      result.status = StatusCodes.OK
+      return res.send(result).status(StatusCodes.OK)
+    }
+
+    result.data = { columns: data.columns, users: data.rows }
+
+    result.message = `Returned user ${id}'s data`
+    result.success = true
+    result.status = StatusCodes.OK
+
+    res.send(result).status(StatusCodes.OK)
+  } catch (err) {
+    res.send(result).status(StatusCodes.INTERNAL_SERVER_ERROR)
+  }
 })
 
 router.post("/settings", async (req, res) => {
