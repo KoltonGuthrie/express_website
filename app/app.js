@@ -1,4 +1,6 @@
 import "dotenv/config"
+import { v4 as uuidv4 } from "uuid"
+import ejs from "ejs"
 import express from "express"
 import session from "express-session"
 import ejsLayouts from "express-ejs-layouts"
@@ -8,7 +10,6 @@ import { isLoggedIn, loginRequired, adminRequired, parseSettings } from "./utils
 import { isValidCredentials, getCredentialsByUsername } from "./database/credentials.js"
 import { getUserRoleById } from "./database/roles.js"
 import { getUserSettingsById } from "./database/settings.js"
-import ejs from "ejs"
 
 ejs.delimiter = "/"
 ejs.openDelimiter = "["
@@ -19,6 +20,9 @@ const app = express()
 // TODO: Save into a database
 app.use(
   session({
+    genid: function (req) {
+      return uuidv4() // use UUIDs for session IDs
+    },
     secret: process.env.SESSION_KEY,
     resave: false,
     saveUninitialized: false,

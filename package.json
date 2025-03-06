@@ -19,10 +19,11 @@
     "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
     "express": "^4.21.2",
+    "express-ejs-layouts": "github:KoltonGuthrie/express-ejs-layouts#use-res-locals-layout",
     "express-session": "^1.18.1",
     "http-status-codes": "^2.3.0",
     "sqlite3": "^5.1.7",
-    "express-ejs-layouts": "github:KoltonGuthrie/express-ejs-layouts#use-res-locals-layout"
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "husky": "^9.1.7",
