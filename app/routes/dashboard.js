@@ -26,7 +26,7 @@ router.use(async (req, res, next) => {
   res.locals.settings = req.session.settings
 
   // Use dashboard/layout for all pages in this route
-  req.app.set("layout", "dashboard/layout")
+  res.locals.layout = "dashboard/layout"
 
   next()
 })
@@ -36,8 +36,6 @@ router.get("/", (req, res) => {
 })
 
 router.get("/users", async (req, res) => {
-  const data = {}
-
   const users = await getAllUserDetails()
 
   res.render("dashboard/users", {
