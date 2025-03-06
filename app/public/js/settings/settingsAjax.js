@@ -1,4 +1,11 @@
+const notyf = new Notyf({ position: { x: "right", y: "top" } })
+
 $(document).ready(function () {
+  if (window.location.hash === "#success") {
+    notyf.success("Settings saved!")
+    window.location.hash = ""
+  }
+
   $("#settings-form").submit(function (e) {
     e.preventDefault()
 
@@ -9,15 +16,18 @@ $(document).ready(function () {
       type: "POST",
       data: formData,
       success: function (response) {
-        console.log("Settings saved successfully!")
-        console.log(response)
         if (response.success) {
+          console.log("Settings saved successfully!")
+          window.location.hash = "success"
           window.location.reload()
+        } else {
+          console.error("An error occurred while saving the settings.")
+          notyf.error(`Unable to save settings.<br>Error: ${response.message}`)
         }
       },
       error: function (xhr, status, error) {
         console.error("An error occurred while saving the settings.")
-        console.log(error)
+        notyf.error(`Unable to save settings.<br>Error: ${error}`)
       }
     })
   })
