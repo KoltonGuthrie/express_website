@@ -1,7 +1,7 @@
 import crypto from "node:crypto"
 import { openDatabase, getColumns } from "./utils.js"
 
-function getCredentialsByUsername(username) {
+function getCredentialsByUsername(username, order) {
   return new Promise((resolve, reject) => {
     const db = openDatabase()
 

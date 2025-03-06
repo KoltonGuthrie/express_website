@@ -31,7 +31,7 @@ function getUserSettingsById(id) {
   })
 }
 
-function getAllSettings() {
+function getAllSettings(order) {
   return new Promise((resolve, reject) => {
     const db = openDatabase()
 
@@ -40,7 +40,7 @@ function getAllSettings() {
         console.log(err)
         reject("Error querying the database:", err)
       } else {
-        let json = { columns: getColumns(rows), rows: rows }
+        let json = { columns: getColumns(rows, order), rows: rows }
         resolve(json)
       }
     })

@@ -1,6 +1,6 @@
 import { openDatabase, getColumns } from "./utils.js"
 
-function getUserById(id) {
+function getUserById(id, order) {
   return new Promise((resolve, reject) => {
     const db = openDatabase()
 
@@ -8,7 +8,7 @@ function getUserById(id) {
       if (err) {
         reject("Error querying the database:", err)
       } else {
-        let json = { columns: getColumns(row), rows: row }
+        let json = { columns: getColumns(row, order), rows: row }
         resolve(json)
       }
     })
@@ -21,20 +21,22 @@ function getUserById(id) {
   })
 }
 
-function getAllUserDetails() {
+function getUserDetails(id, order) {
   return new Promise(async (resolve, reject) => {
     const db = openDatabase()
 
-    db.all(
+    db.get(
       `SELECT user.id, user.email, c.username, c.displayname, r.name AS "role" FROM user
             JOIN credentials AS c ON user.id = c.user_id
             JOIN user_roles AS ur ON user.id = ur.user_id
-            JOIN roles AS r ON ur.role_id = r.id;`,
+            JOIN roles AS r ON ur.role_id = r.id
+            WHERE user.id = ?;`,
+      [id],
       (err, rows) => {
         if (err) {
           reject("Error querying the database:", err)
         } else {
-          let json = { columns: getColumns(rows), rows: rows }
+          let json = { columns: getColumns(rows, order), rows: rows }
           resolve(json)
         }
       }
@@ -48,4 +50,31 @@ function getAllUserDetails() {
   })
 }
 
-export { getUserById, getAllUserDetails }
+function getAllUserDetails(order) {
+  return new Promise(async (resolve, reject) => {
+    const db = openDatabase()
+
+    db.all(
+      `SELECT user.id, user.email, c.username, c.displayname, r.name AS "role" FROM user
+            JOIN credentials AS c ON user.id = c.user_id
+            JOIN user_roles AS ur ON user.id = ur.user_id
+            JOIN roles AS r ON ur.role_id = r.id;`,
+      (err, rows) => {
+        if (err) {
+          reject("Error querying the database:", err)
+        } else {
+          let json = { columns: getColumns(rows, order), rows: rows }
+          resolve(json)
+        }
+      }
+    )
+
+    db.close((err) => {
+      if (err) {
+        console.error("Error closing the database:", err)
+      }
+    })
+  })
+}
+
+export { getUserById, getAllUserDetails, getUserDetails }

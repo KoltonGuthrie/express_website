@@ -1,6 +1,6 @@
 import { openDatabase, getColumns } from "./utils.js"
 
-function getUserRoleById(id) {
+function getUserRoleById(id, order) {
   return new Promise((resolve, reject) => {
     const db = openDatabase()
 
@@ -11,7 +11,7 @@ function getUserRoleById(id) {
         if (err) {
           reject("Error querying the database:", err)
         } else {
-          let json = { columns: getColumns(row), rows: row }
+          let json = { columns: getColumns(row, order), rows: row }
           resolve(json)
         }
       }
