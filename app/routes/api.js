@@ -1,4 +1,4 @@
-import { loginRequired, adminRequired } from "../utils.js"
+import { apiLoginRequired, apiAdminRequired } from "./utils.js"
 import { updateSettings } from "../database/settings.js"
 import { getCredentialsByUsername } from "../database/credentials.js"
 import { ReasonPhrases, StatusCodes } from "http-status-codes"
@@ -9,8 +9,8 @@ const router = express.Router()
 
 // Because some api routes may not require login later,
 // they will be set here instead of within the app
-router.use("/user", loginRequired, adminRequired)
-router.use("/settings", loginRequired, adminRequired)
+router.use("/user", apiLoginRequired, apiAdminRequired)
+router.use("/settings", apiLoginRequired, apiAdminRequired)
 
 router.get("/", (req, res) => {
   res.send("[GET, PUT] /user and [POST] /settings")
@@ -27,7 +27,7 @@ router.put("/user", async (req, res) => {
 
     const result = {
       success: false,
-      data: null,
+      data: undefined,
       message: ReasonPhrases.INTERNAL_SERVER_ERROR,
       status: StatusCodes.INTERNAL_SERVER_ERROR
     }
