@@ -1,31 +1,61 @@
 <head>
   <link rel="stylesheet" href="/css/dashboard/users/styles.css" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="/js/dashboard/users/usersScript.js">
+    const preferredOrder = [/- JSON.stringify(columns) /]
+  </script>
 </head>
 
 <section id="users" class="dashboard-section">
   <h2>Manage Users</h2>
+
+  <input type="text" id="search-input" placeholder="Search users..." onkeyup="searchUsers()" />
+
   <button id="refresh-users" onclick="fetchUsers()">Refresh Users</button>
+
   <table id="user-table">
     <thead>
       <tr>
-        <th>ID</th>
-        <th>Username</th>
-        <th>Role</th>
+        [/ columns.forEach(column => { /]
+        <th>[/= column /]</th>
+        [/ }); /]
         <th>Actions</th>
       </tr>
     </thead>
-    <tbody>
-      <% users.forEach(user => { %>
+    <tbody id="user-table-body">
+      [/ users.forEach(user => { /]
       <tr>
-        <td><%= user.id %></td>
-        <td><%= user.username %></td>
-        <td><%= user.role %></td>
+        [/ columns.forEach(column => { /]
+        <td>[/= String(user[column]) /]</td>
+        [/ }); /]
         <td>
-          <button class="edit-btn" onclick="editUser('<%= user.id %>')">Edit</button>
-          <button class="delete-btn" onclick="deleteUser('<%= user.id %>')">Delete</button>
+          <button class="edit-btn" onclick="openEditModal('[/= user.id /]', '[/= JSON.stringify(user) /]')">
+            Edit
+          </button>
+          <button class="delete-btn" onclick="deleteUser('[/= user.id /]')">Delete</button>
         </td>
       </tr>
-      <% }); %>
+      [/ }); /]
     </tbody>
   </table>
 </section>
+
+<!-- Edit User Modal -->
+<div id="editUserModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeEditModal()">&times;</span>
+    <h2>Edit User</h2>
+    <form id="editUserForm">
+      <input type="hidden" id="edit-user-id" />
+      <label>Username:</label>
+      <input type="text" id="edit-username" required />
+      <label>Display Name:</label>
+      <input type="text" id="edit-displayname" required />
+      <label>Role:</label>
+      <input type="text" id="edit-role" required />
+      <label>Email:</label>
+      <input type="email" id="edit-email" required />
+      <button type="submit">Save Changes</button>
+    </form>
+  </div>
+</div>
