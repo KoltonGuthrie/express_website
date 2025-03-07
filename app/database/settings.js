@@ -1,13 +1,14 @@
-import { openDatabase, getColumns } from "./utils.js"
+import { getConnection, getColumns } from "./utils.js"
 
-const UPDATE_SETTINGS_PARTIAL_QUERY = `INSERT OR REPLACE INTO user_settings (user_id, setting_id, value) VALUES`
+const UPDATE_SETTINGS_PARTIAL_QUERY = `INSERT INTO user_settings (user_id, setting_id, value) VALUES`
 const UPDATE_SETTINGS_PARTIAL_VALUES = `(?, (SELECT id FROM settings WHERE name = ?), ?)`
+const UPDATE_SETTINGS_PARTIAL_SUFFIX = `AS temp ON DUPLICATE KEY UPDATE value = temp.value;`
 
 function getUserSettingsById(id) {
   return new Promise((resolve, reject) => {
-    const db = openDatabase()
+    const db = getConnection()
 
-    db.all(
+    db.execute(
       `SELECT user_id, name AS "setting_name", value FROM user_settings
         JOIN settings AS s ON setting_id = s.id
         WHERE user_id = ?`,
@@ -22,32 +23,20 @@ function getUserSettingsById(id) {
         }
       }
     )
-
-    db.close((err) => {
-      if (err) {
-        console.error("Error closing the database:", err)
-      }
-    })
   })
 }
 
 function getAllSettings(order) {
   return new Promise((resolve, reject) => {
-    const db = openDatabase()
+    const db = getConnection()
 
-    db.all(`SELECT * FROM settings`, (err, rows) => {
+    db.execute(`SELECT * FROM settings`, (err, rows) => {
       if (err) {
         console.log(err)
         reject("Error querying the database:", err)
       } else {
         let json = { columns: getColumns(rows, order), rows: rows }
         resolve(json)
-      }
-    })
-
-    db.close((err) => {
-      if (err) {
-        console.error("Error closing the database:", err)
       }
     })
   })
@@ -57,7 +46,7 @@ function getAllSettings(order) {
 // settings is a json object of settings and their values
 function updateSettings(id, settings) {
   return new Promise(async (resolve, reject) => {
-    const db = openDatabase()
+    const db = getConnection()
 
     const allSettings = (await getAllSettings()).rows.map((i) => i.name)
 
@@ -76,20 +65,17 @@ function updateSettings(id, settings) {
 
     if (parms.length <= 0) return resolve(0)
 
-    let sql = UPDATE_SETTINGS_PARTIAL_QUERY + parms.map((_) => UPDATE_SETTINGS_PARTIAL_VALUES).join(", ")
+    let sql =
+      UPDATE_SETTINGS_PARTIAL_QUERY +
+      parms.map((_) => UPDATE_SETTINGS_PARTIAL_VALUES).join(", ") +
+      UPDATE_SETTINGS_PARTIAL_SUFFIX
 
-    db.run(sql, parms.flat(), function (err) {
+    db.execute(sql, parms.flat(), (err, result) => {
       if (err) {
         console.log(err)
         reject("Error querying the database:", err)
       }
-      resolve(this.changes)
-    })
-
-    db.close((err) => {
-      if (err) {
-        console.error("Error closing the database:", err)
-      }
+      resolve(result.affectedRows - 1)
     })
   })
 }

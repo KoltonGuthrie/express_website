@@ -1,12 +1,17 @@
-import sqlite3 from "sqlite3"
+import mysql from "mysql2"
 
-function openDatabase() {
-  const db = new sqlite3.Database("./app/database/database.db", sqlite3.OPEN_CREATE | sqlite3.OPEN_READWRITE, (err) => {
-    if (err) {
-      console.error(err.message)
-    }
-  })
-  return db
+const pool = mysql.createPool({
+  host: process.env.DATABASE_HOST,
+  user: process.env.DATABASE_USERNAME,
+  password: process.env.DATABASE_PASSWORD,
+  database: process.env.DATABASE_NAME,
+  multipleStatements: true
+})
+
+console.log("CREATED POOL")
+
+function getConnection() {
+  return pool
 }
 
 // Will return the colums of an an array of json or json
@@ -34,4 +39,4 @@ function getColumnsFromJson(json) {
   return Object.keys(json)
 }
 
-export { openDatabase, getColumns }
+export { getConnection, getColumns }

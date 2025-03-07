@@ -1,22 +1,17 @@
 import crypto from "node:crypto"
-import { openDatabase, getColumns } from "./utils.js"
+import { getConnection, getColumns } from "./utils.js"
 
-function getCredentialsByUsername(username, order) {
+async function getCredentialsByUsername(username, order) {
   return new Promise((resolve, reject) => {
-    const db = openDatabase()
+    const db = getConnection()
 
-    db.get("SELECT * FROM credentials WHERE UPPER(username) = ?", [username.toUpperCase()], (err, row) => {
+    db.execute("SELECT * FROM credentials WHERE UPPER(username) = ?", [username.toUpperCase()], (err, rows, fields) => {
       if (err) {
-        reject("Error querying the database:", err)
+        console.log(err)
+        reject("Error querying the database:", err.message)
       } else {
-        let json = { columns: getColumns(row), rows: row }
+        let json = { columns: getColumns(rows, order), row: rows[0] }
         resolve(json)
-      }
-    })
-
-    db.close((err) => {
-      if (err) {
-        console.error("Error closing the database:", err)
       }
     })
   })

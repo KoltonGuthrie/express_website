@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid"
 import ejs from "ejs"
 import express from "express"
 import session from "express-session"
+import MySQLStore from "express-mysql-session"
 import ejsLayouts from "express-ejs-layouts"
 import dashboardRoute from "./routes/dashboard.js"
 import apiRoute from "./routes/api.js"
@@ -10,6 +11,7 @@ import { isLoggedIn, loginRequired, adminRequired, parseSettings } from "./utils
 import { isValidCredentials, getCredentialsByUsername } from "./database/credentials.js"
 import { getUserRoleById } from "./database/roles.js"
 import { getUserSettingsById } from "./database/settings.js"
+import { getConnection } from "./database/utils.js"
 
 ejs.delimiter = "/"
 ejs.openDelimiter = "["
@@ -17,7 +19,9 @@ ejs.closeDelimiter = "]"
 
 const app = express()
 
-// TODO: Save into a database
+const MySQLStorer = MySQLStore(session)
+const sessionStore = new MySQLStorer({ clearExpired: true, checkExpirationInterval: 900000 }, getConnection()) // Clear expired sessions every 15 mins
+
 app.use(
   session({
     genid: function (req) {
@@ -26,6 +30,7 @@ app.use(
     secret: process.env.SESSION_KEY,
     resave: false,
     saveUninitialized: false,
+    store: sessionStore,
     cookie: { maxAge: 1000 * 60 * 60 } // 1-hour session
   })
 )
@@ -42,7 +47,7 @@ app.use(ejsLayouts)
 app.use(async (req, res, next) => {
   // Load settings into the session (only for users that are logged-in)
   if (req.session.username) {
-    const user = (await getCredentialsByUsername(req.session.username)).rows
+    const user = (await getCredentialsByUsername(req.session.username)).row
     if (user.user_id) {
       req.session.settings = parseSettings((await getUserSettingsById(user.user_id)).rows)
     }
@@ -76,8 +81,8 @@ app.post("/login", async (req, res) => {
     const { username, password } = req.body
 
     if (isValidCredentials(username, password)) {
-      const id = (await getCredentialsByUsername(username)).rows.user_id
-      const role = (await getUserRoleById(id)).rows.name
+      const id = (await getCredentialsByUsername(username)).row.user_id
+      const role = (await getUserRoleById(id)).row.name
 
       req.session.username = username
       req.session.role = role

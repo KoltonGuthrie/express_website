@@ -1,27 +1,21 @@
-import { openDatabase, getColumns } from "./utils.js"
+import { getConnection, getColumns } from "./utils.js"
 
 function getUserRoleById(id, order) {
   return new Promise((resolve, reject) => {
-    const db = openDatabase()
+    const db = getConnection()
 
-    db.get(
+    db.execute(
       "SELECT name, description FROM user_roles JOIN roles AS R ON role_id = R.id WHERE user_id = ?;",
       [id],
-      (err, row) => {
+      (err, rows) => {
         if (err) {
           reject("Error querying the database:", err)
         } else {
-          let json = { columns: getColumns(row, order), rows: row }
+          let json = { columns: getColumns(rows, order), row: rows[0] }
           resolve(json)
         }
       }
     )
-
-    db.close((err) => {
-      if (err) {
-        console.error("Error closing the database:", err)
-      }
-    })
   })
 }
 

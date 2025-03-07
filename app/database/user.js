@@ -1,21 +1,15 @@
-import { openDatabase, getColumns } from "./utils.js"
+import { getConnection, getColumns } from "./utils.js"
 
 function getUserById(id, order) {
   return new Promise((resolve, reject) => {
-    const db = openDatabase()
+    const db = getConnection()
 
-    db.get("SELECT * FROM user WHERE id = ?", [id], (err, row) => {
+    db.execute("SELECT * FROM user WHERE id = ?", [id], (err, rows) => {
       if (err) {
         reject("Error querying the database:", err)
       } else {
-        let json = { columns: getColumns(row, order), rows: row }
+        let json = { columns: getColumns(rows, order), row: rows[0] }
         resolve(json)
-      }
-    })
-
-    db.close((err) => {
-      if (err) {
-        console.error("Error closing the database:", err)
       }
     })
   })
@@ -23,9 +17,9 @@ function getUserById(id, order) {
 
 function getUserDetails(id, order) {
   return new Promise(async (resolve, reject) => {
-    const db = openDatabase()
+    const db = getConnection()
 
-    db.get(
+    db.execute(
       `SELECT user.id, user.email, c.username, c.displayname, r.name AS "role" FROM user
             JOIN credentials AS c ON user.id = c.user_id
             JOIN user_roles AS ur ON user.id = ur.user_id
@@ -36,25 +30,19 @@ function getUserDetails(id, order) {
         if (err) {
           reject("Error querying the database:", err)
         } else {
-          let json = { columns: getColumns(rows, order), rows: rows }
+          let json = { columns: getColumns(rows, order), row: rows[0] }
           resolve(json)
         }
       }
     )
-
-    db.close((err) => {
-      if (err) {
-        console.error("Error closing the database:", err)
-      }
-    })
   })
 }
 
 function getAllUserDetails(order) {
   return new Promise(async (resolve, reject) => {
-    const db = openDatabase()
+    const db = getConnection()
 
-    db.all(
+    db.execute(
       `SELECT user.id, user.email, c.username, c.displayname, r.name AS "role" FROM user
             JOIN credentials AS c ON user.id = c.user_id
             JOIN user_roles AS ur ON user.id = ur.user_id
@@ -68,12 +56,6 @@ function getAllUserDetails(order) {
         }
       }
     )
-
-    db.close((err) => {
-      if (err) {
-        console.error("Error closing the database:", err)
-      }
-    })
   })
 }
 
