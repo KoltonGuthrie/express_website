@@ -11,7 +11,7 @@ import { isLoggedIn, loginRequired, adminRequired, parseSettings } from "./utils
 import { isValidCredentials, getCredentialsByUsername } from "./database/credentials.js"
 import { getUserRoleById } from "./database/roles.js"
 import { getUserSettingsById } from "./database/settings.js"
-import { getConnection } from "./database/utils.js"
+import db from "./database/database.js"
 
 ejs.delimiter = "/"
 ejs.openDelimiter = "["
@@ -20,7 +20,7 @@ ejs.closeDelimiter = "]"
 const app = express()
 
 const MySQLStorer = MySQLStore(session)
-const sessionStore = new MySQLStorer({ clearExpired: true, checkExpirationInterval: 900000 }, getConnection()) // Clear expired sessions every 15 mins
+const sessionStore = new MySQLStorer({ clearExpired: true, checkExpirationInterval: 900000 }, db.getConnection()) // Clear expired sessions every 15 mins
 
 app.use(
   session({
@@ -47,7 +47,7 @@ app.use(ejsLayouts)
 app.use(async (req, res, next) => {
   // Load settings into the session (only for users that are logged-in)
   if (req.session.username) {
-    const user = (await getCredentialsByUsername(req.session.username)).row
+    const user = (await getCredentialsByUsername(req.session.username)).rows[0]
     if (user.user_id) {
       req.session.settings = parseSettings((await getUserSettingsById(user.user_id)).rows)
     }
@@ -81,8 +81,8 @@ app.post("/login", async (req, res) => {
     const { username, password } = req.body
 
     if (await isValidCredentials(username, password)) {
-      const id = (await getCredentialsByUsername(username)).row.user_id
-      const role = (await getUserRoleById(id)).row.name
+      const id = (await getCredentialsByUsername(username)).rows[0].user_id
+      const role = (await getUserRoleById(id)).rows[0].name
 
       req.session.username = username
       req.session.role = role

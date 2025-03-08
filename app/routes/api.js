@@ -109,7 +109,7 @@ router.post("/settings", async (req, res) => {
     status: StatusCodes.INTERNAL_SERVER_ERROR
   }
 
-  const userId = (await getCredentialsByUsername(req.session.username)).row.user_id
+  const userId = (await getCredentialsByUsername(req.session.username)).rows[0].user_id
 
   if (!userId) {
     result.message = ReasonPhrases.UNAUTHORIZED

@@ -10,15 +10,15 @@ router.use(async (req, res, next) => {
 
   const data = {}
 
-  const creds = (await getCredentialsByUsername(username)).row
+  const creds = (await getCredentialsByUsername(username)).rows[0]
   if (!creds?.user_id) return res.send("Internal server error").status(500)
   data.username = creds.username
   data.displayname = creds.displayname
 
-  const user = (await getUserById(creds.user_id)).row
+  const user = (await getUserById(creds.user_id)).rows[0]
   data.email = user.email
 
-  const role = (await getUserRoleById(creds.user_id)).row
+  const role = (await getUserRoleById(creds.user_id)).rows[0]
   data.role = role.name
 
   res.locals.currentUser = data
@@ -31,7 +31,7 @@ router.use(async (req, res, next) => {
   next()
 })
 
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
   res.redirect("dashboard/users")
 })
 
@@ -44,15 +44,15 @@ router.get("/users", async (req, res) => {
   })
 })
 
-router.get("/settings", (req, res) => {
+router.get("/settings", async (req, res) => {
   res.render("dashboard/settings")
 })
 
-router.get("/reports", (req, res) => {
+router.get("/reports", async (req, res) => {
   res.render("dashboard/reports")
 })
 
-router.get("/profile", (req, res) => {
+router.get("/profile", async (req, res) => {
   res.render("dashboard/profile")
 })
 

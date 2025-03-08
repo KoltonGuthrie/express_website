@@ -1,26 +1,16 @@
 import crypto from "node:crypto"
-import { getConnection, getColumns } from "./utils.js"
+import db from "./database.js"
 
 async function getCredentialsByUsername(username, order) {
-  return new Promise((resolve, reject) => {
-    const db = getConnection()
+  const data = await db.query("SELECT * FROM credentials WHERE UPPER(username) = ?", [username.toUpperCase()], order)
 
-    db.execute("SELECT * FROM credentials WHERE UPPER(username) = ?", [username.toUpperCase()], (err, rows, fields) => {
-      if (err) {
-        console.log(err)
-        reject("Error querying the database:", err.message)
-      } else {
-        let json = { columns: getColumns(rows, order), row: rows[0] }
-        resolve(json)
-      }
-    })
-  })
+  return data
 }
 
 async function isValidCredentials(username, password) {
   if (!username || !password) return false
 
-  const user = await getCredentialsByUsername(username)
+  const user = (await getCredentialsByUsername(username)).rows[0]
 
   if (!user) return false
 
