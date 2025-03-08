@@ -80,7 +80,7 @@ app.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body
 
-    if (isValidCredentials(username, password)) {
+    if (await isValidCredentials(username, password)) {
       const id = (await getCredentialsByUsername(username)).row.user_id
       const role = (await getUserRoleById(id)).row.name
 
