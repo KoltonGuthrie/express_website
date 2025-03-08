@@ -1,13 +1,11 @@
-import mysql from "mysql2"
-import fs from "node:fs"
-import { getConnection } from "./utils.js"
+import db from "./database.js"
+import { INIT_QUERIES } from "./create_tables.js"
 
 async function init() {
-  const db = getConnection()
-  const INIT_QUERY = fs.readFileSync("./app/database/create_tables.sql", "utf-8")
-
   try {
-    await db.promise().query(INIT_QUERY)
+    for (const query of INIT_QUERIES) {
+      await db.query(query)
+    }
     console.error("Initialized database.")
   } catch (err) {
     console.error("Error querying the database:", err.message)
