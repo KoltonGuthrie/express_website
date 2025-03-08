@@ -1,4 +1,3 @@
-import crypto from "node:crypto"
 import db from "./database.js"
 
 async function getCredentialsByUsername(username, order) {
@@ -10,11 +9,14 @@ async function getCredentialsByUsername(username, order) {
 async function isValidCredentials(username, password) {
   if (!username || !password) return false
 
-  const user = (await getCredentialsByUsername(username)).rows[0]
+  const data = (
+    await db.query("SELECT * FROM credentials WHERE UPPER(username) = ? AND password = SHA2(?,512)", [
+      username.toUpperCase(),
+      password
+    ])
+  ).rows
 
-  if (!user) return false
-
-  return user.password === crypto.hash("sha512", password)
+  return data.length > 0
 }
 
 export { isValidCredentials, getCredentialsByUsername }
