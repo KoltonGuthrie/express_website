@@ -18,6 +18,8 @@ async function getCredentialsByUsername(username, order) {
 }
 
 async function isValidCredentials(username, password) {
+  if (!username || !password) return false
+
   const user = await getCredentialsByUsername(username)
 
   if (!user) return false
