@@ -12,6 +12,8 @@ import { isValidCredentials, getCredentialsByUsername } from "./database/credent
 import { getUserRoleById } from "./database/roles.js"
 import { getUserSettingsById } from "./database/settings.js"
 import db from "./database/database.js"
+import pg from "pg"
+import pgSession from "connect-pg-simple"
 
 ejs.delimiter = "/"
 ejs.openDelimiter = "["
@@ -19,19 +21,20 @@ ejs.closeDelimiter = "]"
 
 const app = express()
 
-const MySQLStorer = MySQLStore(session)
-const sessionStore = new MySQLStorer({ clearExpired: true, checkExpirationInterval: 900000 }, db.getConnection()) // Clear expired sessions every 15 mins
-
+const PgStore = pgSession(session)
 app.use(
   session({
-    genid: function (req) {
-      return uuidv4() // use UUIDs for session IDs
-    },
-    secret: process.env.SESSION_KEY,
+    store: new PgStore({
+      pool: db.getConnection() // Use PostgreSQL connection pool
+    }),
+    secret: process.env.SESSION_SECRET || "supersecretkey", // Use a strong secret
     resave: false,
     saveUninitialized: false,
-    store: sessionStore,
-    cookie: { maxAge: 1000 * 60 * 60 } // 1-hour session
+    cookie: {
+      secure: process.env.NODE_ENV === "production", // Secure cookies in production
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 // 1 day
+    }
   })
 )
 

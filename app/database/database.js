@@ -1,38 +1,36 @@
-import mysql from "mysql2"
+import pg from "pg"
 import { getColumns } from "./utils.js"
 
-const pool = mysql.createPool({
+const pool = new pg.Pool({
   host: process.env.DATABASE_HOST,
   user: process.env.DATABASE_USERNAME,
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME,
-  multipleStatements: false
+  port: process.env.DATABASE_PORT || 5432, // Default PostgreSQL port
+  ssl: process.env.DATABASE_SSL === "true" ? { rejectUnauthorized: false } : false, // Enable SSL if needed
+  max: 2,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000
 })
 
-async function query(query, args = [], order = []) {
-  const db = getConnection()
+async function query(queryText, args = [], order = []) {
+  const client = await pool.connect() // Get a client from the pool
 
   try {
-    let [rows, fields] = await db.promise().execute(query, args)
+    const result = await client.query(queryText, args) // PostgreSQL uses query()
 
-    if (rows?.constructor?.name === "ResultSetHeader") {
-      rows = [rows]
-    }
+    const rows = result.rows || []
 
-    const json = {
+    return {
       columns: getColumns(rows, order),
       rows: rows
     }
-
-    return json
   } catch (err) {
-    console.error(err)
-    throw new Error("Error querying the database:", err.message)
+    console.error("Database query error:", err)
+    throw new Error("Error querying the database: " + err.message)
+  } finally {
+    client.release() // Release the client back to the pool
   }
 }
 
-function getConnection() {
-  return pool
-}
-
-export default { query, getConnection }
+export default { query, getConnection: () => pool }

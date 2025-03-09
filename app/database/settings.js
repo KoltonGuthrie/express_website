@@ -8,7 +8,7 @@ async function getUserSettingsById(id, order) {
   const data = await db.query(
     `SELECT user_id, name AS "setting_name", value FROM user_settings
         JOIN settings AS s ON setting_id = s.id
-        WHERE user_id = ?`,
+        WHERE user_id = $1`,
     [id],
     order
   )
